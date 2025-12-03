@@ -12,7 +12,7 @@
  * If the string S is the substring p repeating k times, then it can be written as S = p^k.
  *  Given the definition of GCM, k must also be a multiple of GCM.
  * Since every multiple could be the length of the substring, we must test each one.
- * This will also guarantee the shortest possible substring solution.
+ * Looping from 2->gm will gaurantee the longest substring, gm->2 will gaurantee the shortest.
  * 4) Loop over every multiple m of GCM, check if substring(0, len(p) / m) is repeating
  *
  *
