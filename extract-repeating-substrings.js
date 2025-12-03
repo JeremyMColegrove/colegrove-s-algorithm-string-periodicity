@@ -28,17 +28,17 @@
 export function extractRepeatingSubstrings(str) {
 	const substrings = [];
 	// build map of character frequency O(n)
-	const freq = new Map();
-	for (const ch of str) freq.set(ch, (freq.get(ch) || 0) + 1);
-	// get array of frequency values for gcd
-	const vals = Array.from(freq.values());
-	// find gcd among values O(log(min(a, b)))
-	const gm =
-		vals.length === 0
-			? 0
-			: vals.length === 1
-				? vals[0]
-				: vals.reduce((a, c) => gcd(a, c));
+	const freq = {};
+	for (const ch of str) freq[ch] = (freq[ch] || 0) + 1;
+
+	// find gcd
+	let gm = 0; // GCD(0, x) is always x, making 0 the perfect starter
+	for (const key in freq) {
+		// Update the running GCD with the current value
+		gm = gcd(gm, freq[key]);
+		if (gm === 1) break;
+	}
+
 	// early escape if gcd is 1 or 0
 	if (gm <= 1) return [];
 	// loop over all multiples of gcd
@@ -64,9 +64,10 @@ function isRepeating(str, len) {
 }
 
 function gcd(a, b) {
-	if (b === 0) {
-		return a;
+	while (b !== 0) {
+		const temp = b;
+		b = a % b;
+		a = temp;
 	}
-
-	return gcd(b, a % b);
+	return a;
 }
